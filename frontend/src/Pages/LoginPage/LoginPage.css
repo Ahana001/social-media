@@ -1,0 +1,106 @@
+.LoginPageContainer {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.LoginPageWrapper {
+  background-color: white;
+  display: flex;
+  border-radius: 0.36rem;
+  max-width: 50rem;
+  min-width: 70rem;
+  min-height: 50rem;
+  border: 0.1rem solid var(--line-color);
+}
+.ImageContainer {
+  flex: 1;
+  background: linear-gradient(rgba(39, 11, 96, 0.5), rgba(39, 11, 96, 0.5)),
+    url("https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600")
+      center;
+  background-size: cover;
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  color: white;
+  border-top-left-radius: 0.36rem;
+  border-bottom-left-radius: 0.36rem;
+}
+.ImageContainer div:first-of-type {
+  font-size: 2.6rem;
+  text-transform: uppercase;
+}
+.ImageContainer p {
+  font-size: 1.2rem;
+}
+.SignUpContainer {
+  display: flex;
+  flex-direction: column;
+}
+.SignUpContainer .SignupLink {
+  color: var(--auth-button-color);
+  font-size: 1.4rem;
+  text-decoration: none;
+  font-weight: 400;
+  margin-left: 0.5rem;
+}
+.LoginFormContainer {
+  flex: 1;
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.LoginFormContainer h2 {
+  font-size: 2.4rem;
+}
+.LoginFormContainer form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+.LoginUserNameContainer,
+.LoginPasswordContainer {
+  display: flex;
+  flex-direction: column;
+}
+.LoginFormContainer input {
+  border: none;
+  border-bottom: 0.1rem solid var(--line-color);
+  outline: none;
+  padding: 0.5rem 0rem;
+  font-size: 1.4rem;
+  outline: none;
+}
+
+.LoginFormContainer button {
+  border: none;
+  outline: none;
+  padding: 0.5rem 2rem;
+  margin-top: 2rem;
+  cursor: pointer;
+  max-width: 50%;
+  font-size: 1.4rem;
+  background-color: var(--auth-button-color);
+  color: white;
+}
+
+@media (max-width: 798px) {
+  .LoginPageWrapper {
+    min-width: 40rem;
+    min-height: 0rem;
+  }
+  .ImageContainer {
+    display: none;
+  }
+}
+@media (width <= 395px) {
+  .LoginPageWrapper {
+    min-width: 0rem;
+    width: 100%;
+  }
+}

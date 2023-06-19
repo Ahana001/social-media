@@ -103,7 +103,7 @@ export async function getAllUserPosts(
 ) {
   try {
     const modified_posts = await getPostsByUserId([req.user!.id]);
-    return sendSuccess(res, 200, modified_posts);
+    return sendSuccess(res, 200, {posts: modified_posts});
 
     /* eslint-disable @typescript-eslint/no-explicit-any */
   } catch (error) {

@@ -8,6 +8,7 @@ import {connectToMongodb} from './config/mongodb';
 import bodyParser from 'body-parser';
 import {connectToCloudinary} from './config/cloudinary';
 import fileUpload from 'express-fileupload';
+import cors from 'cors';
 
 async function app() {
   const server = express();
@@ -15,6 +16,7 @@ async function app() {
   await connectToMongodb();
   await connectToCloudinary();
 
+  server.use(cors());
   server.use(bodyParser.urlencoded({extended: true}));
   server.use(bodyParser.json({limit: '10mb'}));
   server.use(fileUpload());

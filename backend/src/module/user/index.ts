@@ -15,6 +15,8 @@ user_routes.put('/:id', authenticate_user, user_controller.updateUser);
 user_routes.get('/', authenticate_user, user_controller.getAllUser);
 user_routes.get('/:id', authenticate_user, user_controller.getUser);
 
+user_routes.get('/post', authenticate_user, user_controller.getAllUserPosts);
+
 user_routes.post(
   '/follow/:id',
   authenticate_user,
