@@ -1,0 +1,24 @@
+.PageStructureContainer {
+  display: flex;
+  /* grid-template-columns: 25rem 1fr; */
+  /* margin: 0rem auto; */
+  /* max-width: 128rem; */
+  margin-left: 5rem;
+  margin-right: 5rem;
+  /* min-height: 100vh; */
+}
+.LeftMenubarContainer {
+  border-right: 0.1rem solid var(--line-color);
+  position: fixed;
+  top: 0;
+  width: 25rem;
+  height: 100%;
+  overflow-y: auto;
+}
+.PostListAndSuggetionListContainer {
+  display: grid;
+  grid-template-columns: 60rem 1fr;
+  margin-left: 25rem;
+  width: 100%;
+  box-sizing: border-box;
+}

@@ -8,7 +8,8 @@ import { PostFeedPage } from "./Pages/PostFeedPage/PostFeedPage";
 import { ExplorePage } from "./Pages/ExplorePage/ExplorePage";
 import { BookMarkPage } from "./Pages/BookMarkPage/BookMarkPage";
 import { LikedPostPage } from "./Pages/LikedPostPage/LikedPostPage";
-import { PrivateRoute } from "./Component/PrivateRoute";
+import { PrivateRoute } from "./Component/PrivateRoute/PrivateRoute";
+import { ProfilePage } from "./Pages/ProfilePage/ProfilePage";
 
 function App() {
   return (
@@ -23,8 +24,30 @@ function App() {
           }
         />
         <Route path="/explore" element={<ExplorePage />} />
-        <Route path="/bookmarks" element={<BookMarkPage />} />
-        <Route path="/liked" element={<LikedPostPage />} />
+        <Route
+          path="/bookmarks"
+          element={
+            <PrivateRoute>
+              <BookMarkPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/liked"
+          element={
+            <PrivateRoute>
+              <LikedPostPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <PrivateRoute>
+              <ProfilePage />
+            </PrivateRoute>
+          }
+        />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
       </Routes>

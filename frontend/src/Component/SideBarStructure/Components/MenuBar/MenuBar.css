@@ -1,3 +1,9 @@
+.LeftMenubarWrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 .MenuBarList {
   display: flex;
   flex-direction: column;
@@ -11,10 +17,12 @@
   margin-left: 0.8rem;
   padding: 1rem;
 }
+.MenuBarList li {
+  border-radius: 1rem;
+}
 .MenuBarList .MenuBarListItem {
   cursor: pointer;
   height: 5rem;
-  border-radius: 0.36rem;
   display: flex;
   align-items: center;
   padding-left: 1rem;
@@ -22,13 +30,39 @@
   text-decoration: none;
   color: black;
   text-transform: capitalize;
-}
-.MenuBarList li:hover {
-  background-color: var(--hover-color);
+  border-radius: 1rem;
 }
 .MenuBarIcon {
   font-size: 2.2rem;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.UserProfileContainer {
+  margin-left: 0.8rem;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.UserInfo,
+.UserInfo div:first-of-type {
+  display: flex;
+  align-items: center;
+}
+.UserInfo div:first-of-type {
+  gap: 0.5rem;
+}
+.UserInfo {
+  justify-content: space-between;
+  padding-left: 1rem;
+  font-size: 1.6rem;
+}
+.UserInfoOptionBarIcon {
+  font-size: 2rem;
+  margin-right: 1rem;
+}
+@media (hover: hover) {
+  .MenuBarList li:hover {
+    background-color: var(--hover-color);
+  }
 }

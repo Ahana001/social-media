@@ -14,10 +14,17 @@ import {
   // BsPlusSquareFill,
   BsPlusSquare,
 } from "react-icons/bs";
+import { SlOptions } from "react-icons/sl";
+import { RiUser3Line, RiUser3Fill } from "react-icons/ri";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
+import { setToggleModel } from "../../../../Store/displaySlice";
+import { AvtarWithBorder } from "../../../AvtarWithBorder/AvtarWithBorder";
 
 export function MenuBar() {
   const location = useLocation();
+  const dispatch = useDispatch();
+  const { authUser } = useSelector((state) => state.authentication);
 
   const menubarList = [
     {
@@ -44,6 +51,12 @@ export function MenuBar() {
       selectedIcon: <AiFillHeart />,
       icon: <AiOutlineHeart />,
     },
+    {
+      path: "/profile",
+      label: "Profile",
+      selectedIcon: <RiUser3Fill />,
+      icon: <RiUser3Line />,
+    },
     // {
     //   path: "/",
     //   label: "create",
@@ -58,29 +71,45 @@ export function MenuBar() {
   }
 
   return (
-    <ul className="MenuBarList">
-      {menubarList.map(({ label, selectedIcon, icon, path }) => {
-        return (
-          <li key={label}>
-            <NavLink
-              className="MenuBarListItem"
-              to={path}
-              style={getActiveStyle}
-            >
-              <span className="MenuBarIcon">
-                {location.pathname === path ? selectedIcon : icon}
-              </span>
-              <span className="MenuBarText">{label}</span>
-            </NavLink>
-          </li>
-        );
-      })}
-      <li className="MenuBarListItem">
-        <span className="MenuBarIcon">
-          <BsPlusSquare />
-        </span>
-        <span className="MenuBarText">create</span>
-      </li>
-    </ul>
+    <div className="LeftMenubarWrapper">
+      <ul className="MenuBarList">
+        {menubarList.map(({ label, selectedIcon, icon, path }) => {
+          return (
+            <li key={label}>
+              <NavLink
+                className="MenuBarListItem"
+                to={path}
+                style={getActiveStyle}
+              >
+                <span className="MenuBarIcon">
+                  {location.pathname === path ? selectedIcon : icon}
+                </span>
+                <span className="MenuBarText">{label}</span>
+              </NavLink>
+            </li>
+          );
+        })}
+        <li
+          className="MenuBarListItem"
+          onClick={() => {
+            dispatch(setToggleModel(true));
+          }}
+        >
+          <span className="MenuBarIcon">
+            <BsPlusSquare />
+          </span>
+          <span className="MenuBarText">create</span>
+        </li>
+      </ul>
+      <div className="UserProfileContainer" to="/profile">
+        <div className="UserInfo">
+          <div>
+            <AvtarWithBorder url={authUser.image} size={4} />
+            <span>{authUser.username}</span>
+          </div>
+          <SlOptions className="UserInfoOptionBarIcon" />
+        </div>
+      </div>
+    </div>
   );
 }

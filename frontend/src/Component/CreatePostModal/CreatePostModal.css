@@ -1,0 +1,207 @@
+.ModalPortal {
+  position: fixed;
+  inset: 0rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 999999;
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+}
+.ModalPortal::-webkit-scrollbar {
+  display: none;
+}
+.ModalOverlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+.ModalPortalContent {
+  background-color: white;
+  border-radius: 1.2rem;
+  padding: 2rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 8rem;
+  height: auto;
+  max-height: calc(100vh - 16rem);
+  overflow-y: auto;
+}
+.ModalPortalHeaderAndNextBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ModalPortalCloseButton {
+  height: 4rem;
+  width: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 50%;
+  align-self: flex-end;
+  color: white;
+  margin: 2rem;
+}
+.ModalPortalHeader,
+.ModalPortalCloseButton {
+  font-size: 2rem;
+  font-weight: 400;
+}
+.NextButton,
+.BackButton {
+  color: var(--auth-button-color);
+  font-size: 500;
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+.BackButton {
+  color: black;
+}
+.ModalPortalContentWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  width: 80rem;
+  padding-bottom: 2rem;
+}
+.ImageSelectorContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  font-size: 1.4rem;
+}
+.ImageSelectorContainer img {
+  height: 4rem;
+  width: 4rem;
+}
+.UploadedImageContainer {
+  display: flex;
+  flex-direction: column;
+}
+.UploadedImageCloseBtn {
+  font-size: 1.6rem;
+  cursor: pointer;
+  align-self: flex-end;
+  padding: 1rem;
+}
+.UploadedImageContainer img {
+  width: 18rem;
+}
+.ImageSelectorContainer label {
+  padding: 0.5rem 1rem;
+  border: none;
+  outline: none;
+  border-radius: 0.36rem;
+  cursor: pointer;
+  background-color: var(--auth-button-color);
+  color: white;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ImageSelectorContainer input {
+  opacity: 0;
+  height: 0.1rem;
+}
+.ModalPortalContentBodyAndFooterWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.ModalPortalContentBody {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+}
+.ModalPortalContentBodyText {
+  height: 14rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.ModalPortalContentBodyText textarea {
+  height: 100%;
+  width: 100%;
+  resize: none;
+  border: none;
+  padding: 10px;
+  box-sizing: border-box;
+  min-height: 100px;
+  box-sizing: border-box;
+  outline: none;
+  border: 0.1rem solid var(--line-color);
+  border-radius: 0.36rem;
+}
+.ModalPortalContentFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.FooterActionButton {
+  display: flex;
+}
+.EmojiSelector {
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+.PostButton {
+  background-color: var(--auth-button-color);
+  color: white;
+  text-transform: uppercase;
+  padding: 1rem 2rem;
+  border-radius: 0.36rem;
+  font-size: 1.4rem;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  border: none;
+}
+.PostButton:disabled {
+  background-color: rgb(188, 185, 185);
+  cursor: not-allowed;
+}
+@media (hover: hover) {
+  .ModalPortalCloseButton:hover {
+    background-color: rgba(179, 178, 178, 0.889);
+  }
+}
+.ModalPortalContentBodyText textarea::-webkit-scrollbar {
+  display: none;
+}
+@media (max-width: 925px) {
+  .ModalPortalContentWrapper {
+    width: 60rem;
+  }
+}
+@media (max-width: 798px) {
+  .ModalPortalContentWrapper {
+    flex-direction: column;
+    width: auto;
+  }
+  .ModalPortalContent {
+    height: auto;
+  }
+}
+@media (width <= 395px) {
+  .ModalPortalContent {
+    padding: 1rem 0.8rem;
+  }
+  .UploadedImageContainer img {
+    width: 14rem;
+  }
+  .ImageSelectorContainer label {
+    padding: 0.5rem 0rem;
+  }
+  .ModalPortalContentBody {
+    gap: 0.5rem;
+  }
+}

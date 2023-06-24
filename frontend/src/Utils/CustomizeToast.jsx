@@ -6,7 +6,6 @@ export function CustomizeToast(type, message) {
   const style = {
     position: "top-right",
     autoClose: 1000,
-    theme: "colored",
     bodyClassName: "custom-toast-body",
   };
   /* eslint-disable default-case */

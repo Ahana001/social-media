@@ -21,7 +21,7 @@ export function SignupPage() {
   useEffect(() => {
     authToken &&
       navigate(location?.state?.from?.pathname || "/", { replace: true });
-  }, [authToken]);
+  }, [authToken, location, navigate]);
 
   function signupHandler(e) {
     e.preventDefault();
