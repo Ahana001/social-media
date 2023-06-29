@@ -47,7 +47,15 @@ export function PostList({ list }) {
         </div>
       </div>
 
-      <div className="PostListContainer">
+      <div
+        className="PostListContainer"
+        style={{
+          borderRight:
+            location.pathname !== "/profile"
+              ? "0.1rem solid var(--line-color)"
+              : "none",
+        }}
+      >
         {getAllPostStatus === "pending" ? (
           <Loader />
         ) : list.length === 0 ? (

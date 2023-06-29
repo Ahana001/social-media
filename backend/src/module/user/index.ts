@@ -12,10 +12,15 @@ open_routes.post('/auth/register', auth_controller.createUser);
 open_routes.post('/auth/login', auth_controller.loginUser);
 
 user_routes.put('/:id', authenticate_user, user_controller.updateUser);
+user_routes.put('image/:id', authenticate_user, user_controller.updateUser);
+user_routes.get(
+  '/suggestionlist',
+  authenticate_user,
+  user_controller.suggetionList
+);
+user_routes.get('/post', authenticate_user, user_controller.getAllUserPosts);
 user_routes.get('/', authenticate_user, user_controller.getAllUser);
 user_routes.get('/:id', authenticate_user, user_controller.getUser);
-
-user_routes.get('/post', authenticate_user, user_controller.getAllUserPosts);
 
 user_routes.post(
   '/follow/:id',

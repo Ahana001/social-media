@@ -31,6 +31,7 @@ export async function createUser(req: Request, res: Response) {
     const modified_user = created_user.toObject() as UserDocument;
     delete modified_user.password;
     delete modified_user._id;
+    delete modified_user.image_public_id;
 
     return sendSuccess(res, 201, {user: {...modified_user}, token});
 
@@ -43,6 +44,7 @@ export async function createUser(req: Request, res: Response) {
     ) {
       return sendError(res, 409, 'Username already taken');
     }
+    console.error(error);
     return sendError(res, 500, 'Internal Server Error');
   }
 }
@@ -69,6 +71,7 @@ export async function loginUser(req: Request, res: Response) {
         const modified_user = user.toObject() as UserDetails;
         delete modified_user.password;
         delete modified_user._id;
+        delete modified_user.image_public_id;
 
         modified_user.followers = await getUsersFromDB(user.followers);
         modified_user.following = await getUsersFromDB(user.following);
@@ -82,6 +85,7 @@ export async function loginUser(req: Request, res: Response) {
     }
     /* eslint-disable @typescript-eslint/no-explicit-any */
   } catch (error) {
+    console.error(error);
     return sendError(res, 500, 'Internal Server Error');
   }
 }

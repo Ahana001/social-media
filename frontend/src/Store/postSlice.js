@@ -2,11 +2,13 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { CustomizeToast } from "../Utils/CustomizeToast";
 import {
   addPostRequest,
+  bookmarkPostRequest,
   deletePostRequest,
   dislikePostRequest,
   editPostRequest,
   getAllPostRequest,
   likePostRequest,
+  unBookmarkPostRequest,
 } from "../Services/postService";
 
 const initialState = {
@@ -53,8 +55,13 @@ export const addPost = createAsyncThunk(
 export const editPost = createAsyncThunk(
   "posts/editPost",
   async ({ postData, token }, { rejectWithValue }) => {
+    console.log("postData");
+    console.log(postData);
     try {
       delete postData.displayPicture;
+      if (!postData.picture) {
+        delete postData.picture;
+      }
       const response = await editPostRequest(postData, token);
       return response.data;
     } catch (error) {
@@ -100,6 +107,32 @@ export const dislikePost = createAsyncThunk(
     }
   }
 );
+export const bookmarkPost = createAsyncThunk(
+  "post/bookmarkPost",
+  async ({ postId, token }, { rejectWithValue }) => {
+    try {
+      const response = await bookmarkPostRequest(postId, token);
+      return response.data;
+    } catch (error) {
+      console.error(error.response.data);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const unBookmarkPost = createAsyncThunk(
+  "post/unBookmarkPost",
+  async ({ postId, token }, { rejectWithValue }) => {
+    try {
+      const response = await unBookmarkPostRequest(postId, token);
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error(error.response.data);
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const postSlice = createSlice({
   name: "post",
   initialState,
@@ -130,7 +163,7 @@ const postSlice = createSlice({
     [addPost.fulfilled]: (state, action) => {
       state.postStatus = "fulfilled";
       state.getAllPostData = action.payload.result.posts;
-      CustomizeToast("success", "Post Created Successfully");
+      CustomizeToast("info", "Post Created Successfully");
     },
     [addPost.rejected]: (state, action) => {
       state.postStatus = "error";
@@ -143,7 +176,7 @@ const postSlice = createSlice({
     [deletePost.fulfilled]: (state, action) => {
       state.postStatus = "fulfilled";
       state.getAllPostData = action.payload.result.posts;
-      CustomizeToast("success", "Post Deleted Successfully");
+      CustomizeToast("info", "Post Deleted Successfully");
     },
     [deletePost.rejected]: (state, action) => {
       state.postStatus = "error";
@@ -156,7 +189,7 @@ const postSlice = createSlice({
     [editPost.fulfilled]: (state, action) => {
       state.postStatus = "fulfilled";
       state.getAllPostData = action.payload.result.posts;
-      CustomizeToast("success", "Post Edited Successfully");
+      CustomizeToast("info", "Post Edited Successfully");
     },
     [editPost.rejected]: (state, action) => {
       state.postStatus = "error";
@@ -169,6 +202,7 @@ const postSlice = createSlice({
     [likePost.fulfilled]: (state, action) => {
       state.postStatus = "fulfilled";
       state.getAllPostData = action.payload.result.posts;
+      CustomizeToast("info", "Post Liked Successfully");
     },
     [likePost.rejected]: (state, action) => {
       state.postStatus = "error";
@@ -180,8 +214,33 @@ const postSlice = createSlice({
     [dislikePost.fulfilled]: (state, action) => {
       state.postStatus = "fulfilled";
       state.getAllPostData = action.payload.result.posts;
+      CustomizeToast("info", "Post Disliked Successfully");
     },
     [dislikePost.rejected]: (state, action) => {
+      state.postStatus = "error";
+      CustomizeToast("error", action.payload.errors[0].message);
+    },
+    [bookmarkPost.pending]: (state) => {
+      state.postStatus = "pending";
+    },
+    [bookmarkPost.fulfilled]: (state, action) => {
+      state.postStatus = "fulfilled";
+      state.getAllPostData = action.payload.result.posts;
+      CustomizeToast("info", "Post Bookmarked Successfully");
+    },
+    [bookmarkPost.rejected]: (state, action) => {
+      state.postStatus = "error";
+      CustomizeToast("error", action.payload.errors[0].message);
+    },
+    [unBookmarkPost.pending]: (state) => {
+      state.postStatus = "pending";
+    },
+    [unBookmarkPost.fulfilled]: (state, action) => {
+      state.postStatus = "fulfilled";
+      state.getAllPostData = action.payload.result.posts;
+      CustomizeToast("info", "Post Removed From Bookmarked Successfully");
+    },
+    [unBookmarkPost.rejected]: (state, action) => {
       state.postStatus = "error";
       CustomizeToast("error", action.payload.errors[0].message);
     },

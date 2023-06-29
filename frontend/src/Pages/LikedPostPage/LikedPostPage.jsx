@@ -16,6 +16,7 @@ export function LikedPostPage() {
     );
     setLikedPost(() => filterUserLikdedPost);
   }, [authUser, getAllPostData]);
+
   return (
     <SideBarStructure>
       <PostList list={likedPost} />

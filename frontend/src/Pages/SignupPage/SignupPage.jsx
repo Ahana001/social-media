@@ -46,7 +46,7 @@ export function SignupPage() {
             <div className="SignupUserNameContainer">
               <input
                 type="text"
-                placeholder="username"
+                placeholder="Username"
                 required
                 onChange={(e) => {
                   setSignupData({ ...signupData, username: e.target.value });
@@ -56,7 +56,7 @@ export function SignupPage() {
             <div className="SignupPasswordContainer">
               <input
                 type="text"
-                placeholder="password"
+                placeholder="Password"
                 required
                 onChange={(e) => {
                   setSignupData({ ...signupData, password: e.target.value });
@@ -66,7 +66,7 @@ export function SignupPage() {
             <div className="SignupCityContainer">
               <input
                 type="text"
-                placeholder="city"
+                placeholder="City"
                 required
                 onChange={(e) => {
                   setSignupData({ ...signupData, city: e.target.value });

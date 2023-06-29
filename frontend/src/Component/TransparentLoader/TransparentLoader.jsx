@@ -3,7 +3,7 @@ import "./TransparentLoader.css";
 export function TransparentLoader() {
   return (
     <div className="TransparentLoaderContainer">
-      <div class="lds-spinner">
+      <div className="lds-spinner">
         <div></div>
         <div></div>
         <div></div>

@@ -4,6 +4,8 @@ import { SideBarStructure } from "../../Component/SideBarStructure/SideBarStruct
 import { Avtar } from "../../Component/Avtar/Avtar";
 import { useSelector } from "react-redux";
 import { BsGrid3X3, BsBookmark } from "react-icons/bs";
+import { useState } from "react";
+import { PostList } from "../../Component/PostList/PostList";
 
 export function ProfilePage() {
   const { authUser } = useSelector((state) => state.authentication);
@@ -11,8 +13,12 @@ export function ProfilePage() {
   const filterUserPost = getAllPostData.filter(
     (post) => post.author_id === authUser.id
   );
-  const followersCount = authUser.followers.length;
-  const followingCount = authUser.following.length;
+  const followersCount = authUser?.followers?.length;
+  const followingCount = authUser?.following?.length;
+  const [userProfileTab, setUserProfileTab] = useState("Posts");
+  const filterBookmarkedPosts = getAllPostData.filter((post) =>
+    post.bookmark_by.find((user) => user.id === authUser.id)
+  );
 
   return (
     <>
@@ -40,16 +46,53 @@ export function ProfilePage() {
           </div>
           <div className="HorizontalLine"></div>
           <div className="UserProfilePostContainer">
-            <ul className="UserProfilePostHeader">
-              <li className="UserPRofilePostHeaderItem">
-                <BsGrid3X3 className="UserPRofilePostHeaderIcon" />
-                <span>Post</span>
-              </li>
-              <li className="UserPRofilePostHeaderItem">
-                <BsBookmark className="UserPRofilePostHeaderIcon" />
-                <span>Bookmarks</span>
-              </li>
-            </ul>
+            <div className="UserProfilePostWrapper">
+              <ul className="UserProfilePostHeader">
+                <li
+                  onClick={() => {
+                    setUserProfileTab(() => "Posts");
+                  }}
+                  style={{
+                    borderTop:
+                      userProfileTab === "Posts" ? "0.1rem solid" : "none",
+                    color: userProfileTab === "Posts" ? "black" : "grey",
+                  }}
+                >
+                  <BsGrid3X3
+                    className="UserProfilePostHeaderIcon"
+                    style={{
+                      color: userProfileTab === "Posts" ? "black" : "grey",
+                    }}
+                  />
+                  <span>Posts</span>
+                </li>
+                <li
+                  onClick={() => {
+                    setUserProfileTab(() => "Bookmarked");
+                  }}
+                  style={{
+                    borderTop:
+                      userProfileTab === "Bookmarked" ? "0.1rem solid" : "none",
+                    color: userProfileTab === "Bookmarked" ? "black" : "grey",
+                  }}
+                >
+                  <BsBookmark
+                    className="UserProfilePostHeaderIcon"
+                    style={{
+                      color: userProfileTab === "Bookmarked" ? "black" : "grey",
+                    }}
+                  />
+                  <span>Bookmarked</span>
+                </li>
+              </ul>
+              <PostList
+                list={
+                  userProfileTab === "Posts"
+                    ? filterUserPost
+                    : filterBookmarkedPosts
+                }
+              />
+            </div>
           </div>
         </div>
       </SideBarStructure>

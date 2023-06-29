@@ -3,7 +3,11 @@ import {User} from './models';
 import {Response} from 'express';
 import {UserDetails, UserDocument} from './type';
 import {AuthenticatedRequest} from '../../utils/jwt/authenticate';
-import {getAllUserFromDB, getUsersFromDB} from './service';
+import {
+  getAllUserFromDB,
+  getUserSuggetionList,
+  getUsersFromDB,
+} from './service';
 import {id} from '../../utils/validation';
 
 export async function followUser(req: AuthenticatedRequest, res: Response) {
@@ -38,6 +42,7 @@ export async function followUser(req: AuthenticatedRequest, res: Response) {
         const updated_modified_user = updated_user!.toObject() as UserDetails;
         delete updated_modified_user.password;
         delete updated_modified_user._id;
+        delete modified_user.image_public_id;
 
         updated_modified_user.followers = await getUsersFromDB(
           updated_user!.followers
@@ -57,10 +62,12 @@ export async function followUser(req: AuthenticatedRequest, res: Response) {
         );
 
         const modified_users_result = await getAllUserFromDB();
+        const suggetionList = await getUserSuggetionList(user_id);
 
         return sendSuccess(res, 200, {
           user: updated_modified_user,
           users: modified_users_result,
+          suggetionList: suggetionList,
         });
       }
     } else {
@@ -69,6 +76,7 @@ export async function followUser(req: AuthenticatedRequest, res: Response) {
 
     /* eslint-disable @typescript-eslint/no-explicit-any */
   } catch (error) {
+    console.error(error);
     return sendError(res, 500, 'Internal Server Error');
   }
 }
@@ -124,9 +132,12 @@ export async function unfollowUser(req: AuthenticatedRequest, res: Response) {
         );
 
         const modified_users_result = await getAllUserFromDB();
+        const suggetionList = await getUserSuggetionList(user_id);
+
         return sendSuccess(res, 200, {
           user: updated_modified_user,
           users: modified_users_result,
+          suggetionList,
         });
       }
     } else {
@@ -135,6 +146,7 @@ export async function unfollowUser(req: AuthenticatedRequest, res: Response) {
 
     /* eslint-disable @typescript-eslint/no-explicit-any */
   } catch (error) {
+    console.error(error);
     return sendError(res, 500, 'Internal Server Error');
   }
 }

@@ -7,6 +7,7 @@ import {
   AiOutlineCompass,
   AiFillHeart,
   AiOutlineHeart,
+  AiOutlineLogout,
 } from "react-icons/ai";
 import {
   BsBookmarksFill,
@@ -20,11 +21,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useLocation } from "react-router-dom";
 import { setToggleModel } from "../../../../Store/displaySlice";
 import { AvtarWithBorder } from "../../../AvtarWithBorder/AvtarWithBorder";
+import { setLogoutToggle } from "../../../../Store/displaySlice";
+import { logoutHandler } from "../../../../Store/authenticationSlice";
 
 export function MenuBar() {
   const location = useLocation();
   const dispatch = useDispatch();
   const { authUser } = useSelector((state) => state.authentication);
+  const { logoutToggle } = useSelector((state) => state.display);
 
   const menubarList = [
     {
@@ -101,13 +105,34 @@ export function MenuBar() {
           <span className="MenuBarText">create</span>
         </li>
       </ul>
-      <div className="UserProfileContainer" to="/profile">
+      <div
+        className="UserProfileContainer"
+        onClick={(e) => {
+          e.stopPropagation();
+          dispatch(setLogoutToggle(!logoutToggle));
+        }}
+      >
         <div className="UserInfo">
           <div>
             <AvtarWithBorder url={authUser.image} size={4} />
             <span>{authUser.username}</span>
           </div>
           <SlOptions className="UserInfoOptionBarIcon" />
+          <div
+            className="LogOutContainer"
+            style={{ display: logoutToggle ? "flex" : "none" }}
+          >
+            <ul>
+              <li
+                onClick={async (e) => {
+                  e.stopPropagation();
+                  dispatch(logoutHandler());
+                }}
+              >
+                <AiOutlineLogout className="LogOutIcon" /> <span>Log Out</span>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

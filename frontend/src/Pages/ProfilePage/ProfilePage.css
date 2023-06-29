@@ -52,17 +52,42 @@
   height: 0.1rem;
   background-color: var(--line-color);
 }
+.UserProfilePostContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .UserProfilePostHeader {
   display: flex;
-  gap: 1rem;
+  justify-content: center;
+  gap: 3rem;
   list-style: none;
   margin-block-start: 0rem;
   margin-block-end: 0rem;
   padding-inline-start: 0rem;
 }
 .UserProfilePostHeader li {
+  display: flex;
+  gap: 1rem;
   padding: 1rem 0rem;
   cursor: pointer;
   border-spacing: 0.1rem;
   border-collapse: separate;
+  border-top: 0.1rem solid;
+  color: grey;
+}
+.UserProfilePostHeaderIcon {
+  font-size: 1.6rem;
+  color: grey;
+}
+.UserProfilePostHeader li span {
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 1.4rem;
+}
+.UserProfilePostWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60rem;
 }

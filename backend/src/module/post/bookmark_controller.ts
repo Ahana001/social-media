@@ -1,14 +1,12 @@
-import {sendError, sendSuccess} from '../../utils/handle_response';
 import {AuthenticatedRequest} from '../../utils/jwt/authenticate';
+import {Response} from 'express';
 import {id} from '../../utils/validation';
-// import {getUsersFromDB} from '../user/service';
+import {sendError, sendSuccess} from '../../utils/handle_response';
 import {Post} from './models';
 import {getPosts} from './service';
-// import {PostDetails, PostDocument} from './types';
-import {Response} from 'express';
 import {PostDocument} from './types';
 
-export async function likePost(req: AuthenticatedRequest, res: Response) {
+export async function bookmarkPost(req: AuthenticatedRequest, res: Response) {
   try {
     const validation = id.validate(req.params);
     if (validation.error)
@@ -19,22 +17,21 @@ export async function likePost(req: AuthenticatedRequest, res: Response) {
     const post = await Post.findOne({id: validated_req.id, is_deleted: false});
 
     if (post) {
-      const postAlreadyLikeByUser = post.liked_by.find(
+      const postAlreadyBookmarkByUser = post.bookmark_by.find(
         user_id => user_id === req.user!.id
       );
 
-      if (postAlreadyLikeByUser) {
+      if (postAlreadyBookmarkByUser) {
         return sendError(
           res,
           400,
-          'Cannot like a post that is already liked. '
+          'Cannot bookmark a post that is already bookmarked. '
         );
       }
       await Post.findOneAndUpdate(
         {id: validated_req.id},
         {
-          $push: {liked_by: req.user!.id},
-          $set: {like_count: post.like_count + 1},
+          $push: {bookmark_by: req.user!.id},
           $currentDate: {updatedAt: true},
           is_deleted: false,
         },
@@ -62,7 +59,10 @@ export async function likePost(req: AuthenticatedRequest, res: Response) {
   }
 }
 
-export async function removelikePost(req: AuthenticatedRequest, res: Response) {
+export async function removeBookmarkPost(
+  req: AuthenticatedRequest,
+  res: Response
+) {
   try {
     const validation = id.validate(req.params);
     if (validation.error)
@@ -73,17 +73,22 @@ export async function removelikePost(req: AuthenticatedRequest, res: Response) {
     const post = await Post.findOne({id: validated_req.id, is_deleted: false});
 
     if (post) {
-      const postAlreadyLikeByUser = post.liked_by.find(
+      const postAlreadyBookmarkedByUser = post.bookmark_by.find(
         user_id => user_id === req.user!.id
       );
-      if (!postAlreadyLikeByUser) {
-        return sendError(res, 404, 'Cannot dislike a post that is not liked. ');
+      console.log(req.user!.id);
+      console.log(postAlreadyBookmarkedByUser);
+      if (!postAlreadyBookmarkedByUser) {
+        return sendError(
+          res,
+          404,
+          'You cannot unbookmark a post that has not been bookmarked.'
+        );
       }
       await Post.findOneAndUpdate(
         {id: validated_req.id},
         {
-          $set: {like_count: post.like_count - 1},
-          $pull: {liked_by: req.user!.id},
+          $pull: {bookmark_by: req.user!.id},
           $currentDate: {updatedAt: true},
           is_deleted: false,
         },

@@ -1,0 +1,18 @@
+.SuggestionListContainer {
+  padding: 1rem;
+}
+.SuggestionListHeader {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+.SuggestionListContainer ul {
+  list-style: none;
+  margin-block-start: 0em;
+  margin-block-end: 0em;
+  padding-inline-start: 0px;
+  margin-top: 3rem;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}

@@ -1,5 +1,6 @@
+import {getPostsByUserId} from '../post/service';
 import {User} from './models';
-import {UserDocument} from './type';
+import {UserDetails, UserDocument} from './type';
 
 export async function getAllUserFromDB() {
   /*retrieve all users */
@@ -11,6 +12,7 @@ export async function getAllUserFromDB() {
       const modified_parent_user = user.toObject();
       delete modified_parent_user.password;
       delete modified_parent_user._id;
+      delete modified_parent_user.image_public_id;
 
       if (modified_parent_user.followers.length) {
         const followers_details = await User.find({
@@ -23,6 +25,7 @@ export async function getAllUserFromDB() {
             const modified_child_user = user.toObject();
             delete modified_child_user.password;
             delete modified_child_user._id;
+            delete modified_child_user.image_public_id;
 
             if (modified_child_user.followers.length) {
               const child_followers_details = await User.find({
@@ -39,6 +42,7 @@ export async function getAllUserFromDB() {
                     const modified_child = child_user.toObject();
                     delete modified_child.password;
                     delete modified_child._id;
+                    delete modified_child_user.image_public_id;
 
                     const accumulator = await child_followers_accumulator;
                     accumulator.push(modified_child);
@@ -62,6 +66,7 @@ export async function getAllUserFromDB() {
                     const modified_child = child_user.toObject();
                     delete modified_child.password;
                     delete modified_child._id;
+                    delete modified_child.image_public_id;
 
                     const accumulator = await child_following_accumulator;
                     accumulator.push(modified_child);
@@ -90,6 +95,7 @@ export async function getAllUserFromDB() {
             const modified_child_user = user.toObject();
             delete modified_child_user.password;
             delete modified_child_user._id;
+            delete modified_child_user.image_public_id;
 
             if (modified_child_user.followers.length) {
               const child_followers_details = await User.find({
@@ -105,6 +111,7 @@ export async function getAllUserFromDB() {
                     const modified_child = child_user.toObject();
                     delete modified_child.password;
                     delete modified_child._id;
+                    delete modified_child.image_public_id;
 
                     const accumulator = await child_followers_accumulator;
                     accumulator.push(modified_child);
@@ -128,6 +135,7 @@ export async function getAllUserFromDB() {
                     const modified_child = child_user.toObject();
                     delete modified_child.password;
                     delete modified_child._id;
+                    delete modified_child.image_public_id;
 
                     const accumulator = await child_following_accumulator;
                     accumulator.push(modified_child);
@@ -168,6 +176,7 @@ export async function getUsersFromDB(
       const modified_parent_user = user.toObject();
       delete modified_parent_user.password;
       delete modified_parent_user._id;
+      delete modified_parent_user.image_public_id;
 
       if (modified_parent_user.followers.length) {
         const followers_details = await User.find({
@@ -180,6 +189,7 @@ export async function getUsersFromDB(
             const modified_child_user = user.toObject();
             delete modified_child_user.password;
             delete modified_child_user._id;
+            delete modified_child_user.image_public_id;
 
             if (modified_child_user.followers.length) {
               const child_followers_details = await User.find({
@@ -196,6 +206,7 @@ export async function getUsersFromDB(
                     const modified_child = child_user.toObject();
                     delete modified_child.password;
                     delete modified_child._id;
+                    delete modified_child.image_public_id;
 
                     const accumulator = await child_followers_accumulator;
                     accumulator.push(modified_child);
@@ -219,6 +230,7 @@ export async function getUsersFromDB(
                     const modified_child = child_user.toObject();
                     delete modified_child.password;
                     delete modified_child._id;
+                    delete modified_child.image_public_id;
 
                     const accumulator = await child_following_accumulator;
                     accumulator.push(modified_child);
@@ -247,6 +259,7 @@ export async function getUsersFromDB(
             const modified_child_user = user.toObject();
             delete modified_child_user.password;
             delete modified_child_user._id;
+            delete modified_child_user.image_public_id;
 
             if (modified_child_user.followers.length) {
               const child_followers_details = await User.find({
@@ -262,6 +275,7 @@ export async function getUsersFromDB(
                     const modified_child = child_user.toObject();
                     delete modified_child.password;
                     delete modified_child._id;
+                    delete modified_child.image_public_id;
 
                     const accumulator = await child_followers_accumulator;
                     accumulator.push(modified_child);
@@ -285,6 +299,7 @@ export async function getUsersFromDB(
                     const modified_child = child_user.toObject();
                     delete modified_child.password;
                     delete modified_child._id;
+                    delete modified_child.image_public_id;
 
                     const accumulator = await child_following_accumulator;
                     accumulator.push(modified_child);
@@ -308,4 +323,62 @@ export async function getUsersFromDB(
     Promise.resolve([])
   );
   return modified_users_result;
+}
+
+export async function getUserSuggetionList(user_id: string) {
+  const user = await User.findOne({id: user_id, is_deleted: false});
+
+  const modified_user = (await user!.toObject()) as UserDetails;
+  delete modified_user.password;
+  delete modified_user._id;
+  delete modified_user.image_public_id;
+
+  modified_user.followers = await getUsersFromDB(user!.followers);
+  modified_user.following = await getUsersFromDB(user!.following);
+
+  const userPosts = await getPostsByUserId([user_id]);
+
+  let suggetionList: UserDocument[] = [];
+  userPosts.map(post => {
+    post.liked_by.map(likedByUser => {
+      if (
+        (modified_user.following.find(
+          followingUser => followingUser.id === likedByUser.id
+        )
+          ? false
+          : true) &&
+        likedByUser.id !== user_id
+      ) {
+        suggetionList.push(likedByUser);
+      }
+    });
+    post.bookmark_by.map(bookMarkByUser => {
+      if (
+        (modified_user.following.find(
+          followingUser => followingUser.id === bookMarkByUser.id
+        )
+          ? false
+          : true) &&
+        bookMarkByUser.id !== user_id
+      ) {
+        suggetionList.push(bookMarkByUser);
+      }
+    });
+  });
+  false;
+  console.log('suggetionList');
+  console.log(suggetionList);
+  if (suggetionList.length === 0) {
+    const allUser = await getAllUserFromDB();
+    suggetionList = allUser.filter(
+      user =>
+        user.id !== user_id &&
+        (modified_user.following.find(
+          followingUser => followingUser.id === user.id
+        )
+          ? false
+          : true)
+    );
+  }
+  return suggetionList;
 }

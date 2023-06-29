@@ -19,3 +19,14 @@ export async function signupRequest(username, password, city) {
     }
   );
 }
+export async function followUserRequest(userId, token) {
+  return await axios.post(
+    `${process.env.REACT_APP_API_BASE_URL}/user/follow/${userId}`,
+    {},
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+}

@@ -42,6 +42,7 @@
   margin-left: 0.8rem;
   padding: 1rem;
   cursor: pointer;
+  position: relative;
 }
 
 .UserInfo,
@@ -61,8 +62,36 @@
   font-size: 2rem;
   margin-right: 1rem;
 }
+.LogOutContainer {
+  position: absolute;
+  border-radius: 0.36rem;
+  bottom: 6rem;
+  font-size: 1.4rem;
+  border-radius: 0.5rem;
+  border: 0.1rem solid var(--line-color);
+  background-color: white;
+}
+.LogOutContainer ul {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+.LogOutContainer ul li {
+  box-sizing: border-box;
+  padding: 1rem 5rem 1rem 1rem;
+  display: flex;
+  gap: 2rem;
+  cursor: pointer;
+  border-radius: 0.36rem;
+}
+.LogOutIcon {
+  font-size: 2rem;
+}
 @media (hover: hover) {
   .MenuBarList li:hover {
+    background-color: var(--hover-color);
+  }
+  .LogOutContainer ul li:hover {
     background-color: var(--hover-color);
   }
 }

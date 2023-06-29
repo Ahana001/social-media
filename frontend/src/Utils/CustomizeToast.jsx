@@ -19,5 +19,8 @@ export function CustomizeToast(type, message) {
     case "success": {
       return toast.success(message, style);
     }
+    case "info": {
+      return toast.info(message, style);
+    }
   }
 }

@@ -43,7 +43,7 @@ export function LoginPage() {
               <div className="LoginUserNameContainer">
                 <input
                   type="text"
-                  placeholder="username"
+                  placeholder="Username"
                   required
                   onChange={(e) => {
                     setLoginData({ ...loginData, username: e.target.value });
@@ -53,7 +53,7 @@ export function LoginPage() {
               <div className="LoginPasswordContainer">
                 <input
                   type="text"
-                  placeholder="password"
+                  placeholder="Password"
                   required
                   onChange={(e) => {
                     setLoginData({ ...loginData, password: e.target.value });

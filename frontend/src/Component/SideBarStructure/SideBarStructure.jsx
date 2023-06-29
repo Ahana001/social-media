@@ -4,21 +4,43 @@ import { MenuBar } from "./Components/MenuBar/MenuBar";
 import { SuggestionList } from "../SuggestionList/SuggestionList";
 import { CreatePostModal } from "../CreatePostModal/CreatePostModal";
 import { useDispatch, useSelector } from "react-redux";
-import { setEditBoxVisibility } from "../../Store/displaySlice";
+import {
+  setEditBoxVisibility,
+  setLogoutToggle,
+} from "../../Store/displaySlice";
 import { getAllPost, setPostData } from "../../Store/postSlice";
 import { TransparentLoader } from "../TransparentLoader/TransparentLoader";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { getSuggestionList } from "../../Store/authenticationSlice";
 
 export function SideBarStructure({ children }) {
   const dispatch = useDispatch();
-  const { authToken } = useSelector((state) => state.authentication);
+  const { authToken, followStatus } = useSelector(
+    (state) => state.authentication
+  );
   const { postStatus } = useSelector((state) => state.post);
   const location = useLocation();
 
   useEffect(() => {
     if (authToken) {
       dispatch(getAllPost({ token: authToken }));
+      dispatch(getSuggestionList({ token: authToken }));
+      dispatch(
+        setEditBoxVisibility({
+          visibility: false,
+          postId: null,
+        })
+      );
+      dispatch(
+        setPostData({
+          id: null,
+          content: "",
+          displayPicture: null,
+          picture: null,
+        })
+      );
+      dispatch(setLogoutToggle(false));
     }
   }, [authToken, dispatch]);
 
@@ -40,6 +62,7 @@ export function SideBarStructure({ children }) {
             picture: null,
           })
         );
+        dispatch(setLogoutToggle(false));
       }}
     >
       <div className="LeftMenubarContainer">
@@ -56,7 +79,9 @@ export function SideBarStructure({ children }) {
         <SuggestionList></SuggestionList>
       </div>
       <CreatePostModal />
-      {postStatus === "pending" ? <TransparentLoader /> : null}
+      {postStatus === "pending" || followStatus === "pending" ? (
+        <TransparentLoader />
+      ) : null}
     </div>
   );
 }

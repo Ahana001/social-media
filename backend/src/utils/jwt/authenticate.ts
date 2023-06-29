@@ -19,6 +19,7 @@ async function authenticate_jwt(
     const promis = new Promise(resolve => {
       jwt.verify(token, secretStore.getSecret('JWT_SECRET'), (err, user) => {
         if (err) {
+          console.error('error');
           sendError(res, 401, 'Authorization Error');
         } else {
           if (!user) {

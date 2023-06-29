@@ -37,11 +37,13 @@
   border: 0.1rem solid var(--line-color);
   border-radius: 0.5rem;
   margin: 1rem 0rem 0rem;
-  padding: 0.5rem;
+  max-width: 30rem;
   display: inline-block;
 }
 .PostContent img {
-  max-width: 30rem;
+  font-size: 0rem;
+  width: 100%;
+  height: auto;
   border-radius: 0.5rem;
 }
 .PostActionButtons {
@@ -72,6 +74,9 @@
 }
 .FillHeart {
   color: var(--main-color);
+}
+.FillBookMark {
+  color: #30a2ff;
 }
 .PostHeaderRight {
   font-size: 1.8rem;

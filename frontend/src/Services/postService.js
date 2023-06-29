@@ -35,7 +35,9 @@ export async function deletePostRequest(postId, token) {
 
 export async function editPostRequest(postData, token) {
   const formData = new FormData();
-  formData.append("picture", postData.picture);
+  if (postData.picture) {
+    formData.append("picture", postData.picture);
+  }
   formData.append("content", postData.content);
 
   return await axios.put(
@@ -62,6 +64,28 @@ export async function likePostRequest(postId, token) {
 export async function dislikePostRequest(postId, token) {
   return await axios.post(
     `${process.env.REACT_APP_API_BASE_URL}/post/dislike/${postId}`,
+    {},
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+}
+export async function bookmarkPostRequest(postId, token) {
+  return await axios.post(
+    `${process.env.REACT_APP_API_BASE_URL}/post/bookmark/${postId}`,
+    {},
+    {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    }
+  );
+}
+export async function unBookmarkPostRequest(postId, token) {
+  return await axios.post(
+    `${process.env.REACT_APP_API_BASE_URL}/post/unbookmark/${postId}`,
     {},
     {
       headers: {

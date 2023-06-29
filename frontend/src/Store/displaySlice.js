@@ -8,6 +8,7 @@ const displaySlice = createSlice({
       postId: null,
       visibility: false,
     },
+    logoutToggle: false,
   },
   reducers: {
     setToggleModel(state, action) {
@@ -16,8 +17,12 @@ const displaySlice = createSlice({
     setEditBoxVisibility(state, action) {
       return { ...state, editBoxVisibility: action.payload };
     },
+    setLogoutToggle(state, action) {
+      return { ...state, logoutToggle: action.payload };
+    },
   },
 });
 
-export const { setToggleModel, setEditBoxVisibility } = displaySlice.actions;
+export const { setToggleModel, setEditBoxVisibility, setLogoutToggle } =
+  displaySlice.actions;
 export const displayReducer = displaySlice.reducer;
