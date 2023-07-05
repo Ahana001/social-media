@@ -1,0 +1,26 @@
+.UserAvtar,
+.UserAvtarImageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.UserAvtar {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  background-image: linear-gradient(45deg, var(--main-color), #f5c33b, purple);
+}
+.UserAvtarImageContainer {
+  margin: 1rem;
+  background-color: white;
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 50%;
+}
+.UserAvtar img {
+  vertical-align: middle;
+  width: 4.8rem;
+  height: 4.8rem;
+  border-radius: 50%;
+  margin: 1rem;
+}

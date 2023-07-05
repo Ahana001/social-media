@@ -9,7 +9,7 @@ export type PostDocument = {
   author_id: string;
   like_count: number;
   liked_by: [];
-  disliked_by: [];
+  bookmark_by: [];
   is_deleted?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
@@ -21,9 +21,10 @@ export type PostDetails = {
   picture_url?: string;
   picture_public_id?: string;
   author_id: string;
+  user?: {};
   like_count: number;
   liked_by: UserDocument[];
-  disliked_by: UserDocument[];
+  bookmark_by: UserDocument[];
   is_deleted?: boolean;
   createdAt?: Date;
   updatedAt?: Date;

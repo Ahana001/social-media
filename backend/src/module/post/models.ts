@@ -31,7 +31,7 @@ const postSchema = new Schema({
     type: [String],
     default: [],
   },
-  disliked_by: {
+  bookmark_by: {
     type: [String],
     default: [],
   },

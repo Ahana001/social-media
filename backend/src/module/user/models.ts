@@ -40,10 +40,6 @@ const userSchema = new Schema({
     type: [String],
     default: [],
   },
-  bookmarks: {
-    type: [String],
-    default: [],
-  },
   followers: {
     type: [String],
     default: [],

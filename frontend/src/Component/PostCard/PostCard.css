@@ -1,0 +1,153 @@
+.PostCardContainer {
+  display: flex;
+  gap: 1rem;
+  border-bottom: 0.1rem solid var(--line-color);
+  padding: 2rem;
+  cursor: pointer;
+}
+.PostBody {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.PostHeaderLeft,
+.PostTime,
+.PostHeader {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.PostHeader {
+  gap: 0.5rem;
+  justify-content: space-between;
+  position: relative;
+}
+.PostUserName,
+.PostTime,
+.PostContentText {
+  font-size: 1.4rem;
+}
+.PostContentText {
+  word-wrap: break-word;
+}
+.PostUserName {
+  font-weight: 500;
+}
+.PostTime {
+  color: var(--small-text-color);
+}
+.PostImage {
+  border-radius: 0.5rem;
+  margin: 1rem 0rem 0rem;
+  max-width: 30rem;
+  display: inline-block;
+}
+.PostContent img {
+  font-size: 0rem;
+  width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+}
+.PostActionButtons {
+  display: flex;
+  justify-content: space-between;
+  max-width: 50%;
+  margin: 1rem 0rem 0rem;
+}
+.LikeActionButton,
+.BookMarkActionButton,
+.ShareActionButton {
+  font-size: 1.8rem;
+  border-radius: 50%;
+  height: 3.6rem;
+  width: 3.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.LikeButtonContainer,
+.BookMarkButtonContainer,
+.ShareButtonContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1.4rem;
+  gap: 0.5rem;
+}
+.FillHeart {
+  color: var(--main-color);
+}
+.FillBookMark {
+  color: #30a2ff;
+}
+.PostHeaderRight {
+  font-size: 1.8rem;
+  border-radius: 50%;
+  height: 3.6rem;
+  width: 3.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.EditPostContainer {
+  font-size: 1.4rem;
+  border-radius: 0.5rem;
+  position: absolute;
+  right: 0rem;
+  top: 0rem;
+  border: 0.1rem solid var(--line-color);
+  background-color: white;
+}
+.EditPostContainer ul {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+.EditPostContainer ul li {
+  box-sizing: border-box;
+  padding: 1rem 5rem 1rem 1rem;
+  display: flex;
+  gap: 2rem;
+  cursor: pointer;
+  border-radius: 0.36rem;
+}
+.DeleteButton,
+.EditButton {
+  font-size: 2rem;
+}
+.EditPostContainer li:first-of-type {
+  color: red;
+}
+@media (hover: hover) {
+  .LikeButtonContainer:hover {
+    color: #ff0060;
+  }
+  .BookMarkButtonContainer:hover,
+  .PostHeaderRight:hover {
+    color: #30a2ff;
+  }
+  .ShareButtonContainer:hover {
+    color: #0cc386;
+  }
+  .LikeActionButton:hover {
+    background-color: #ffb2cf;
+  }
+  .BookMarkActionButton:hover,
+  .PostHeaderRight:hover {
+    background-color: #99d1ff;
+  }
+  .ShareActionButton:hover {
+    background-color: #c1f6e4;
+  }
+  .EditPostContainer ul li:hover {
+    background-color: var(--hover-color);
+  }
+}
+@media (max-width: 780px) {
+  .PostCardContainer {
+    padding: 2rem;
+    padding-right: 0rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}

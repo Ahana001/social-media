@@ -1,0 +1,13 @@
+.AvtarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 12rem;
+  width: 12rem;
+  border-radius: 50%;
+  border: 0.1rem solid var(--line-color);
+}
+.AvtarContainer img {
+  height: 100%;
+  width: 100%;
+}

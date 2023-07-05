@@ -11,7 +11,6 @@ export const update_user = Joi.object({
   username: Joi.string().trim(),
   password: Joi.string().trim(),
   city: Joi.string().trim(),
-  image: Joi.string().trim(),
   bio: Joi.string().trim(),
   profile_url: Joi.string().trim(),
 });

@@ -31,18 +31,20 @@ export async function createUser(req: Request, res: Response) {
     const modified_user = created_user.toObject() as UserDocument;
     delete modified_user.password;
     delete modified_user._id;
+    delete modified_user.image_public_id;
 
-    return sendSuccess(res, 201, {...modified_user, token});
+    return sendSuccess(res, 201, {user: {...modified_user}, token});
 
     /* eslint-disable @typescript-eslint/no-explicit-any */
   } catch (error) {
     if (
       (error as {message: string}).message.includes(
-        ' E11000 duplicate key error collection: test.users index: username_1 dup key:'
+        'E11000 duplicate key error collection: test.users index:'
       )
     ) {
       return sendError(res, 409, 'Username already taken');
     }
+    console.error(error);
     return sendError(res, 500, 'Internal Server Error');
   }
 }
@@ -69,11 +71,12 @@ export async function loginUser(req: Request, res: Response) {
         const modified_user = user.toObject() as UserDetails;
         delete modified_user.password;
         delete modified_user._id;
+        delete modified_user.image_public_id;
 
         modified_user.followers = await getUsersFromDB(user.followers);
         modified_user.following = await getUsersFromDB(user.following);
 
-        return sendSuccess(res, 200, {...modified_user, token});
+        return sendSuccess(res, 200, {user: {...modified_user}, token});
       } else {
         return sendError(res, 401, 'Authorization Error');
       }
@@ -82,6 +85,7 @@ export async function loginUser(req: Request, res: Response) {
     }
     /* eslint-disable @typescript-eslint/no-explicit-any */
   } catch (error) {
+    console.error(error);
     return sendError(res, 500, 'Internal Server Error');
   }
 }

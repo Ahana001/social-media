@@ -5,7 +5,7 @@ export async function connectToMongodb() {
   try {
     await connect(secretStore.getSecret('MONGODB_URL'));
   } catch (error) {
-    console.log('Error:', error);
+    console.error('Error:', error);
   }
 }
 

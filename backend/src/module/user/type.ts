@@ -4,6 +4,7 @@ export type UserDocument = {
   username: string;
   password?: string;
   image?: string;
+  image_public_id?: string;
   city: string;
   bio?: string;
   profile_url?: string;
@@ -21,6 +22,7 @@ export type UserDetails = {
   username: string;
   password?: string;
   image?: string;
+  image_public_id?: string;
   city: string;
   bio?: string;
   profile_url?: string;

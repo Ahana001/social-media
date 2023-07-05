@@ -1,0 +1,69 @@
+.PageStructureContainer {
+  display: flex;
+  /* grid-template-columns: 25rem 1fr; */
+  /* margin: 0rem auto; */
+  /* max-width: 128rem; */
+  margin-left: 5rem;
+  margin-right: 5rem;
+  /* min-height: 100vh; */
+}
+.LeftMenubarContainer {
+  border-right: 0.1rem solid var(--line-color);
+  position: fixed;
+  top: 0;
+  width: 25rem;
+  height: 100%;
+  overflow-y: auto;
+}
+.PostListAndSuggetionListContainer {
+  display: grid;
+  grid-template-columns: 60rem 1fr;
+  margin-left: 25rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+@media (max-width: 1280px) {
+  .LeftMenubarContainer {
+    width: 20rem;
+  }
+  .PostListAndSuggetionListContainer {
+    margin-left: 20rem;
+  }
+}
+@media (max-width: 1080px) {
+  .PostListAndSuggetionListContainer {
+    grid-template-columns: 55rem 1fr;
+  }
+  .PageStructureContainer {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+@media (max-width: 980px) {
+  .LeftMenubarContainer {
+    width: 10rem;
+  }
+  .PostListAndSuggetionListContainer {
+    margin-left: 10rem;
+  }
+}
+@media (max-width: 880px) {
+  .PostListAndSuggetionListContainer {
+    grid-template-columns: 46rem 1fr;
+  }
+  .LeftMenubarContainer {
+    width: 8rem;
+  }
+  .PostListAndSuggetionListContainer {
+    margin-left: 8rem;
+  }
+  .PageStructureContainer {
+    margin-left: 0rem;
+    margin-right: 1rem;
+  }
+}
+@media (max-width: 780px) {
+  .PostListAndSuggetionListContainer {
+    grid-template-columns: 1fr;
+  }
+}
