@@ -76,8 +76,6 @@ export async function removeBookmarkPost(
       const postAlreadyBookmarkedByUser = post.bookmark_by.find(
         user_id => user_id === req.user!.id
       );
-      console.log(req.user!.id);
-      console.log(postAlreadyBookmarkedByUser);
       if (!postAlreadyBookmarkedByUser) {
         return sendError(
           res,

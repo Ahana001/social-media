@@ -23,7 +23,14 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route path="/explore" element={<ExplorePage />} />
+        <Route
+          path="/explore"
+          element={
+            <PrivateRoute>
+              <ExplorePage />
+            </PrivateRoute>
+          }
+        />
         <Route
           path="/bookmarks"
           element={

@@ -62,3 +62,23 @@
     background-color: var(--hover-color);
   }
 }
+
+@media (max-width: 1080px) {
+  .PostFilters {
+    width: 55rem;
+  }
+}
+@media (max-width: 880px) {
+  .PostFilters {
+    width: 46rem;
+  }
+}
+@media (max-width: 780px) {
+  .PostFilters {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .PostListContainer {
+    border-right: none;
+  }
+}

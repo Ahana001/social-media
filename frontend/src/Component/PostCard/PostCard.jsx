@@ -19,7 +19,7 @@ import {
   setPostData,
   unBookmarkPost,
 } from "../../Store/postSlice";
-
+import { SmallLoader } from "../SmallLoader/SmallLoader";
 export function PostCard({ post }) {
   const dispatch = useDispatch();
   const { editBoxVisibility } = useSelector((state) => state.display);
@@ -50,12 +50,15 @@ export function PostCard({ post }) {
       }
     }
   }
-  const isPostLikedByUser = post.liked_by.find(
+  const isLikedByUser = post.liked_by.find((user) => user.id === authUser.id)
+    ? true
+    : false;
+  const isBookMarkedByUser = post.bookmark_by.find(
     (user) => user.id === authUser.id
-  );
-  const isPostBookMarkedByUser = post.bookmark_by.find(
-    (user) => user.id === authUser.id
-  );
+  )
+    ? true
+    : false;
+
   return (
     <div className="PostCardContainer">
       <AvtarWithBorder url={authUser.image} />
@@ -70,6 +73,9 @@ export function PostCard({ post }) {
             </div>
           </div>
           <div
+            style={{
+              display: authUser.id === post.author_id ? "flex" : "none",
+            }}
             className="PostHeaderRight"
             onClick={(e) => {
               e.stopPropagation();
@@ -81,7 +87,7 @@ export function PostCard({ post }) {
               );
             }}
           >
-            {authUser.id === post.author_id ? <SlOptions /> : null}
+            <SlOptions />
           </div>
           <div
             className="EditPostContainer"
@@ -141,64 +147,73 @@ export function PostCard({ post }) {
         </div>
 
         <div className="PostActionButtons">
-          <div
-            className="LikeButtonContainer"
-            onClick={() => {
-              if (isPostLikedByUser) {
-                dispatch(
-                  dislikePost({
-                    postId: post.id,
-                    token: authToken,
-                  })
-                );
-              } else {
-                dispatch(
-                  likePost({
-                    postId: post.id,
-                    token: authToken,
-                  })
-                );
-              }
-            }}
-          >
-            <div className="LikeActionButton">
-              {isPostLikedByUser ? (
-                <FaHeart className="FillHeart" />
-              ) : (
-                <FaRegHeart />
-              )}
+          {post.likePostStatus === "pending" ? (
+            <SmallLoader />
+          ) : (
+            <div
+              className="LikeButtonContainer"
+              onClick={() => {
+                if (isLikedByUser) {
+                  dispatch(
+                    dislikePost({
+                      postId: post.id,
+                      token: authToken,
+                    })
+                  );
+                } else {
+                  dispatch(
+                    likePost({
+                      postId: post.id,
+                      token: authToken,
+                    })
+                  );
+                }
+              }}
+            >
+              <div className="LikeActionButton">
+                {isLikedByUser ? (
+                  <FaHeart className="FillHeart" />
+                ) : (
+                  <FaRegHeart />
+                )}
+              </div>
+              <span>{post.like_count}</span>
             </div>
-            <span>{post.like_count}</span>
-          </div>
-          <div
-            className="BookMarkButtonContainer"
-            onClick={() => {
-              if (isPostBookMarkedByUser) {
-                dispatch(
-                  unBookmarkPost({
-                    postId: post.id,
-                    token: authToken,
-                  })
-                );
-              } else {
-                dispatch(
-                  bookmarkPost({
-                    postId: post.id,
-                    token: authToken,
-                  })
-                );
-              }
-            }}
-          >
-            <div className="BookMarkActionButton">
-              {isPostBookMarkedByUser ? (
-                <BsBookmarksFill className="FillBookMark" />
-              ) : (
-                <BiBookmark />
-              )}
+          )}
+          {post.BookMarkPostStatus === "pending" ? (
+            <SmallLoader />
+          ) : (
+            <div
+              className="BookMarkButtonContainer"
+              onClick={() => {
+                if (isBookMarkedByUser) {
+                  dispatch(
+                    unBookmarkPost({
+                      postId: post.id,
+                      token: authToken,
+                    })
+                  );
+                } else {
+                  dispatch(
+                    bookmarkPost({
+                      postId: post.id,
+                      token: authToken,
+                    })
+                  );
+                }
+              }}
+            >
+              <div className="BookMarkActionButton">
+                {isBookMarkedByUser ? (
+                  <BsBookmarksFill className="FillBookMark" />
+                ) : (
+                  <BiBookmark />
+                )}
+              </div>
+              <span>{}</span>
             </div>
-            <span>{}</span>
-          </div>
+          )}
+
           <div className="ShareButtonContainer">
             <div className="ShareActionButton">
               <LuShare />

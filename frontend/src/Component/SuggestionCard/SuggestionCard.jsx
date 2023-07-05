@@ -1,8 +1,9 @@
 import "./SuggestionCard.css";
 
 import { Avtar } from "../Avtar/Avtar";
-import { followUser } from "../../Store/authenticationSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { SmallLoader } from "../SmallLoader/SmallLoader";
+import { followUser } from "../../Store/authenticationSlice";
 
 export function SuggestionCard({ user }) {
   const dispatch = useDispatch();
@@ -17,13 +18,20 @@ export function SuggestionCard({ user }) {
           <span className="SmallUserName">@{user.username}</span>
         </div>
       </div>
-      <button
-        onClick={() => {
-          dispatch(followUser({ userId: user.id, token: authToken }));
-        }}
-      >
-        Follow
-      </button>
+
+      {user.followUserStatus === "pending" ? (
+        <SmallLoader />
+      ) : user.followUserStatus === "fulfilled" ? (
+        <div className="FollowedUser">Following</div>
+      ) : (
+        <button
+          onClick={() => {
+            dispatch(followUser({ userId: user.id, token: authToken }));
+          }}
+        >
+          Follow
+        </button>
+      )}
     </div>
   );
 }

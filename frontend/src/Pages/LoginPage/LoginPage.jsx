@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 
 import { loginUser } from "../../Store/authenticationSlice";
+import { TransparentLoader } from "../../Component/TransparentLoader/TransparentLoader";
 
 export function LoginPage() {
   const dispatch = useDispatch();
@@ -12,7 +13,9 @@ export function LoginPage() {
   const location = useLocation();
 
   const [loginData, setLoginData] = useState({ username: "", password: "" });
-  const { authToken } = useSelector((state) => state.authentication);
+  const { authToken, authStatus } = useSelector(
+    (state) => state.authentication
+  );
 
   useEffect(() => {
     authToken &&
@@ -61,19 +64,29 @@ export function LoginPage() {
                 />
               </div>
               <button type="submit">Login</button>
-              <div className="SignUpContainer">
-                <p>
-                  Don&apos;t you have an account ?
-                  <span>
-                    <Link to="/signup" className="SignupLink">
-                      Sign Up
-                    </Link>
-                  </span>
-                </p>
-              </div>
             </form>
+            <button
+              onClick={() => {
+                dispatch(
+                  loginUser({ username: "Ankita", password: "Ankita@123" })
+                );
+              }}
+            >
+              Login As Guest
+            </button>
+            <div className="SignUpContainer">
+              <p>
+                Don&apos;t you have an account ?
+                <span>
+                  <Link to="/signup" className="SignupLink">
+                    Sign Up
+                  </Link>
+                </span>
+              </p>
+            </div>
           </div>
         </main>
+        {authStatus === "pending" ? <TransparentLoader /> : null}
       </div>
     </>
   );

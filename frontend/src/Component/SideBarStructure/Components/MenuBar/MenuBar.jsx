@@ -115,7 +115,10 @@ export function MenuBar() {
         <div className="UserInfo">
           <div>
             <AvtarWithBorder url={authUser.image} size={4} />
-            <span>{authUser.username}</span>
+            <div className="UserNameStack">
+              <span>{authUser.username}</span>
+              <span>@{authUser.username}</span>
+            </div>
           </div>
           <SlOptions className="UserInfoOptionBarIcon" />
           <div

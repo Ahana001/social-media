@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { signupUser } from "../../Store/authenticationSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { TransparentLoader } from "../../Component/TransparentLoader/TransparentLoader";
 
 export function SignupPage() {
   const dispatch = useDispatch();
@@ -16,7 +17,9 @@ export function SignupPage() {
     password: "",
     city: "",
   });
-  const { authToken } = useSelector((state) => state.authentication);
+  const { authToken, authStatus } = useSelector(
+    (state) => state.authentication
+  );
 
   useEffect(() => {
     authToken &&
@@ -87,6 +90,7 @@ export function SignupPage() {
           </form>
         </div>
       </main>
+      {authStatus === "pending" ? <TransparentLoader /> : null}
     </div>
   );
 }

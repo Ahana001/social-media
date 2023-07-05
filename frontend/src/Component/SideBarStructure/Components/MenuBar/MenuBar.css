@@ -51,7 +51,7 @@
   align-items: center;
 }
 .UserInfo div:first-of-type {
-  gap: 0.5rem;
+  gap: 1rem;
 }
 .UserInfo {
   justify-content: space-between;
@@ -87,11 +87,34 @@
 .LogOutIcon {
   font-size: 2rem;
 }
+.UserNameStack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.UserNameStack span:last-of-type {
+  color: var(--small-text-color);
+  font-size: 1.2rem;
+}
 @media (hover: hover) {
   .MenuBarList li:hover {
     background-color: var(--hover-color);
   }
   .LogOutContainer ul li:hover {
     background-color: var(--hover-color);
+  }
+}
+@media (max-width: 980px) {
+  .MenuBarListItem span:last-of-type {
+    display: none;
+  }
+  .MenuBarIcon {
+    font-size: 2.6rem;
+  }
+
+  .MenuBarList {
+    align-items: center;
+    margin-left: 0rem;
+    padding: 0rem;
   }
 }

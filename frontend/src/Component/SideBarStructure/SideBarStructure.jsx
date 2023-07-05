@@ -10,7 +10,7 @@ import {
 } from "../../Store/displaySlice";
 import { getAllPost, setPostData } from "../../Store/postSlice";
 import { TransparentLoader } from "../TransparentLoader/TransparentLoader";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { getSuggestionList } from "../../Store/authenticationSlice";
 
@@ -21,8 +21,14 @@ export function SideBarStructure({ children }) {
   );
   const { postStatus } = useSelector((state) => state.post);
   const location = useLocation();
+  const isFirstRun = useRef(true);
 
   useEffect(() => {
+    if (isFirstRun.current) {
+      isFirstRun.current = false;
+      return;
+    }
+
     if (authToken) {
       dispatch(getAllPost({ token: authToken }));
       dispatch(getSuggestionList({ token: authToken }));
@@ -71,8 +77,7 @@ export function SideBarStructure({ children }) {
       <div
         className="PostListAndSuggetionListContainer"
         style={{
-          gridTemplateColumns:
-            location.pathname === "/profile" ? "1fr" : "60rem 1fr",
+          gridTemplateColumns: location.pathname === "/profile" ? "1fr" : "",
         }}
       >
         {children}

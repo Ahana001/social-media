@@ -88,6 +88,7 @@
   font-size: 1.4rem;
   background-color: var(--auth-button-color);
   color: white;
+  border-radius: 0.36rem;
 }
 
 @media (max-width: 798px) {

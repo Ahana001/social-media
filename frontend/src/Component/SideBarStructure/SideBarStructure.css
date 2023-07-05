@@ -22,3 +22,48 @@
   width: 100%;
   box-sizing: border-box;
 }
+@media (max-width: 1280px) {
+  .LeftMenubarContainer {
+    width: 20rem;
+  }
+  .PostListAndSuggetionListContainer {
+    margin-left: 20rem;
+  }
+}
+@media (max-width: 1080px) {
+  .PostListAndSuggetionListContainer {
+    grid-template-columns: 55rem 1fr;
+  }
+  .PageStructureContainer {
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+@media (max-width: 980px) {
+  .LeftMenubarContainer {
+    width: 10rem;
+  }
+  .PostListAndSuggetionListContainer {
+    margin-left: 10rem;
+  }
+}
+@media (max-width: 880px) {
+  .PostListAndSuggetionListContainer {
+    grid-template-columns: 46rem 1fr;
+  }
+  .LeftMenubarContainer {
+    width: 8rem;
+  }
+  .PostListAndSuggetionListContainer {
+    margin-left: 8rem;
+  }
+  .PageStructureContainer {
+    margin-left: 0rem;
+    margin-right: 1rem;
+  }
+}
+@media (max-width: 780px) {
+  .PostListAndSuggetionListContainer {
+    grid-template-columns: 1fr;
+  }
+}

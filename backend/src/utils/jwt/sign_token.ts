@@ -4,6 +4,6 @@ import jwt from 'jsonwebtoken';
 
 export function UserSignToken(entity: User) {
   return jwt.sign(entity, secretStore.getSecret('JWT_SECRET'), {
-    expiresIn: '1hr',
+    expiresIn: 2592000,
   });
 }

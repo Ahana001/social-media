@@ -1,6 +1,7 @@
 .SuggestionCardContainer {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .AvtarAndUserInfo {
   display: flex;
@@ -31,4 +32,8 @@
   color: white;
   font-weight: 500;
   background-color: var(--auth-button-color);
+}
+.FollowedUser {
+  font-weight: 500;
+  font-size: 1.4rem;
 }

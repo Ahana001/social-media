@@ -366,8 +366,6 @@ export async function getUserSuggetionList(user_id: string) {
     });
   });
   false;
-  console.log('suggetionList');
-  console.log(suggetionList);
   if (suggetionList.length === 0) {
     const allUser = await getAllUserFromDB();
     suggetionList = allUser.filter(

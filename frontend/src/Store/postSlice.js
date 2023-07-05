@@ -55,8 +55,6 @@ export const addPost = createAsyncThunk(
 export const editPost = createAsyncThunk(
   "posts/editPost",
   async ({ postData, token }, { rejectWithValue }) => {
-    console.log("postData");
-    console.log(postData);
     try {
       delete postData.displayPicture;
       if (!postData.picture) {
@@ -99,7 +97,6 @@ export const dislikePost = createAsyncThunk(
   async ({ postId, token }, { rejectWithValue }) => {
     try {
       const response = await dislikePostRequest(postId, token);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error.response.data);
@@ -124,7 +121,6 @@ export const unBookmarkPost = createAsyncThunk(
   async ({ postId, token }, { rejectWithValue }) => {
     try {
       const response = await unBookmarkPostRequest(postId, token);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error(error.response.data);
@@ -150,7 +146,9 @@ const postSlice = createSlice({
     },
     [getAllPost.fulfilled]: (state, action) => {
       state.getAllPostStatus = "fulfilled";
-      state.getAllPostData = action.payload.result.posts;
+      state.getAllPostData = action.payload.result.posts.map((post) => {
+        return { ...post, likePostStatus: "idle", BookMarkPostStatus: "idle" };
+      });
     },
     [getAllPost.rejected]: (state, action) => {
       state.getAllPostStatus = "error";
@@ -162,7 +160,9 @@ const postSlice = createSlice({
     },
     [addPost.fulfilled]: (state, action) => {
       state.postStatus = "fulfilled";
-      state.getAllPostData = action.payload.result.posts;
+      state.getAllPostData = action.payload.result.posts.map((post) => {
+        return { ...post, likePostStatus: "idle", BookMarkPostStatus: "idle" };
+      });
       CustomizeToast("info", "Post Created Successfully");
     },
     [addPost.rejected]: (state, action) => {
@@ -175,7 +175,9 @@ const postSlice = createSlice({
     },
     [deletePost.fulfilled]: (state, action) => {
       state.postStatus = "fulfilled";
-      state.getAllPostData = action.payload.result.posts;
+      state.getAllPostData = action.payload.result.posts.map((post) => {
+        return { ...post, likePostStatus: "idle", BookMarkPostStatus: "idle" };
+      });
       CustomizeToast("info", "Post Deleted Successfully");
     },
     [deletePost.rejected]: (state, action) => {
@@ -188,7 +190,9 @@ const postSlice = createSlice({
     },
     [editPost.fulfilled]: (state, action) => {
       state.postStatus = "fulfilled";
-      state.getAllPostData = action.payload.result.posts;
+      state.getAllPostData = action.payload.result.posts.map((post) => {
+        return { ...post, likePostStatus: "idle", BookMarkPostStatus: "idle" };
+      });
       CustomizeToast("info", "Post Edited Successfully");
     },
     [editPost.rejected]: (state, action) => {
@@ -196,52 +200,165 @@ const postSlice = createSlice({
       state.postError = action.payload.errors[0].message;
       CustomizeToast("error", action.payload.errors[0].message);
     },
-    [likePost.pending]: (state) => {
-      state.postStatus = "pending";
+    [likePost.pending]: (state, action) => {
+      const { postId } = action.meta.arg;
+      state.getAllPostData = state.getAllPostData.map((post) => {
+        if (post.id === postId) {
+          return { ...post, likePostStatus: "pending" };
+        } else {
+          return post;
+        }
+      });
     },
     [likePost.fulfilled]: (state, action) => {
       state.postStatus = "fulfilled";
-      state.getAllPostData = action.payload.result.posts;
+      const { postId } = action.meta.arg;
+      const authUser = JSON.parse(localStorage.getItem("authUser"));
+
+      state.getAllPostData = state.getAllPostData.map((post) => {
+        if (post.id === postId) {
+          return {
+            ...post,
+            likePostStatus: "idle",
+            liked_by: [...post.liked_by, authUser],
+            like_count: post.like_count + 1,
+          };
+        } else {
+          return post;
+        }
+      });
       CustomizeToast("info", "Post Liked Successfully");
     },
     [likePost.rejected]: (state, action) => {
-      state.postStatus = "error";
+      const { postId } = action.meta.arg;
+      state.getAllPostData = state.getAllPostData.map((post) => {
+        if (post.id === postId) {
+          return { ...post, likePostStatus: "idle" };
+        } else {
+          return post;
+        }
+      });
       CustomizeToast("error", action.payload.errors[0].message);
     },
-    [dislikePost.pending]: (state) => {
-      state.postStatus = "pending";
+    [dislikePost.pending]: (state, action) => {
+      const { postId } = action.meta.arg;
+      state.getAllPostData = state.getAllPostData.map((post) => {
+        if (post.id === postId) {
+          return { ...post, likePostStatus: "pending" };
+        } else {
+          return post;
+        }
+      });
     },
     [dislikePost.fulfilled]: (state, action) => {
-      state.postStatus = "fulfilled";
-      state.getAllPostData = action.payload.result.posts;
+      const { postId } = action.meta.arg;
+      const authUser = JSON.parse(localStorage.getItem("authUser"));
+
+      state.getAllPostData = state.getAllPostData.map((post) => {
+        if (post.id === postId) {
+          const updatedLikedBy = post.liked_by.filter(
+            (user) => user.id !== authUser.id
+          );
+          return {
+            ...post,
+            likePostStatus: "idle",
+            liked_by: updatedLikedBy,
+            like_count: post.like_count - 1,
+          };
+        } else {
+          return post;
+        }
+      });
       CustomizeToast("info", "Post Disliked Successfully");
     },
     [dislikePost.rejected]: (state, action) => {
-      state.postStatus = "error";
+      const { postId } = action.meta.arg;
+      state.getAllPostData = state.getAllPostData.map((post) => {
+        if (post.id === postId) {
+          return { ...post, likePostStatus: "idle" };
+        } else {
+          return post;
+        }
+      });
       CustomizeToast("error", action.payload.errors[0].message);
     },
-    [bookmarkPost.pending]: (state) => {
-      state.postStatus = "pending";
+    [bookmarkPost.pending]: (state, action) => {
+      const { postId } = action.meta.arg;
+      state.getAllPostData = state.getAllPostData.map((post) => {
+        if (post.id === postId) {
+          return { ...post, BookMarkPostStatus: "pending" };
+        } else {
+          return post;
+        }
+      });
     },
     [bookmarkPost.fulfilled]: (state, action) => {
-      state.postStatus = "fulfilled";
-      state.getAllPostData = action.payload.result.posts;
+      const { postId } = action.meta.arg;
+      const authUser = JSON.parse(localStorage.getItem("authUser"));
+
+      state.getAllPostData = state.getAllPostData.map((post) => {
+        if (post.id === postId) {
+          return {
+            ...post,
+            BookMarkPostStatus: "idle",
+            bookmark_by: [...post.bookmark_by, authUser],
+          };
+        } else {
+          return post;
+        }
+      });
       CustomizeToast("info", "Post Bookmarked Successfully");
     },
     [bookmarkPost.rejected]: (state, action) => {
-      state.postStatus = "error";
+      const { postId } = action.meta.arg;
+      state.getAllPostData = state.getAllPostData.map((post) => {
+        if (post.id === postId) {
+          return { ...post, BookMarkPostStatus: "idle" };
+        } else {
+          return post;
+        }
+      });
       CustomizeToast("error", action.payload.errors[0].message);
     },
-    [unBookmarkPost.pending]: (state) => {
-      state.postStatus = "pending";
+    [unBookmarkPost.pending]: (state, action) => {
+      const { postId } = action.meta.arg;
+      state.getAllPostData = state.getAllPostData.map((post) => {
+        if (post.id === postId) {
+          return { ...post, BookMarkPostStatus: "pending" };
+        } else {
+          return post;
+        }
+      });
     },
     [unBookmarkPost.fulfilled]: (state, action) => {
-      state.postStatus = "fulfilled";
-      state.getAllPostData = action.payload.result.posts;
-      CustomizeToast("info", "Post Removed From Bookmarked Successfully");
+      const { postId } = action.meta.arg;
+      const authUser = JSON.parse(localStorage.getItem("authUser"));
+
+      state.getAllPostData = state.getAllPostData.map((post) => {
+        if (post.id === postId) {
+          const updateBookMarkedBy = post.bookmark_by.filter(
+            (user) => user.id !== authUser.id
+          );
+          return {
+            ...post,
+            BookMarkPostStatus: "idle",
+            bookmark_by: updateBookMarkedBy,
+          };
+        } else {
+          return post;
+        }
+      });
+      CustomizeToast("info", "Post Unbookmarked Successfully");
     },
     [unBookmarkPost.rejected]: (state, action) => {
-      state.postStatus = "error";
+      const { postId } = action.meta.arg;
+      state.getAllPostData = state.getAllPostData.map((post) => {
+        if (post.id === postId) {
+          return { ...post, BookMarkPostStatus: "idle" };
+        } else {
+          return post;
+        }
+      });
       CustomizeToast("error", action.payload.errors[0].message);
     },
   },

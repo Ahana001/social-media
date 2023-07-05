@@ -12,8 +12,6 @@ const initialState = {
   authUser: JSON.parse(localStorage.getItem("authUser")) ?? {},
   authStatus: "idle",
   authError: null,
-  followStatus: "idle",
-  followError: null,
   getSuggestionListData: [],
   getSuggestionListStatus: "idle",
   getSuggestionListError: null,
@@ -116,24 +114,37 @@ const authenticationSlice = createSlice({
     },
     [getSuggestionList.fulfilled]: (state, action) => {
       state.getSuggestionListStatus = "fulfilled";
-      state.getSuggestionListData = action.payload.result.suggetionList;
+      state.getSuggestionListData = action.payload.result.suggetionList.map(
+        (user) => ({ ...user, followUserStatus: "idle" })
+      );
     },
     [getSuggestionList.rejected]: (state, action) => {
       state.getSuggestionListStatus = "error";
       state.getSuggestionListError = action.payload.errors[0].message;
     },
-    [followUser.pending]: (state) => {
-      state.followStatus = "pending";
+    [followUser.pending]: (state, action) => {
+      const { userId } = action.meta.arg;
+      state.getSuggestionListData = state.getSuggestionListData.map((user) =>
+        user.id === userId ? { ...user, followUserStatus: "pending" } : user
+      );
     },
     [followUser.fulfilled]: (state, action) => {
-      state.followStatus = "fulfilled";
-      state.authUser = action.payload.result.user;
-      state.getSuggestionListData = action.payload.result.suggetionList;
-      CustomizeToast("success", "Followed Successfully");
+      const { userId } = action.meta.arg;
+      state.getSuggestionListData = state.getSuggestionListData.map((user) =>
+        user.id === userId
+          ? {
+              ...user,
+              followUserStatus: "fulfilled",
+            }
+          : user
+      );
+      CustomizeToast("success", `Followed Successfully`);
     },
     [followUser.rejected]: (state, action) => {
-      state.followStatus = "error";
-      state.followErrors = action.payload.errors[0].message;
+      state.getSuggestionListData = state.getSuggestionListData.map((user) => ({
+        ...user,
+        followUserStatus: "idle",
+      }));
       CustomizeToast("error", action.payload.errors[0].message);
     },
   },

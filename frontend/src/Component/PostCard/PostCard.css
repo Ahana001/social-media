@@ -27,6 +27,9 @@
 .PostContentText {
   font-size: 1.4rem;
 }
+.PostContentText {
+  word-wrap: break-word;
+}
 .PostUserName {
   font-weight: 500;
 }
@@ -34,7 +37,6 @@
   color: var(--small-text-color);
 }
 .PostImage {
-  border: 0.1rem solid var(--line-color);
   border-radius: 0.5rem;
   margin: 1rem 0rem 0rem;
   max-width: 30rem;
@@ -117,9 +119,6 @@
   color: red;
 }
 @media (hover: hover) {
-  .PostCardContainer:hover {
-    background-color: var(--hover-color);
-  }
   .LikeButtonContainer:hover {
     color: #ff0060;
   }
@@ -142,5 +141,13 @@
   }
   .EditPostContainer ul li:hover {
     background-color: var(--hover-color);
+  }
+}
+@media (max-width: 780px) {
+  .PostCardContainer {
+    padding: 2rem;
+    padding-right: 0rem;
+    width: 100%;
+    box-sizing: border-box;
   }
 }
